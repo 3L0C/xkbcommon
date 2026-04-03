@@ -207,3 +207,179 @@ CAMLprim value caml_xkb_keymap_mod_get_index(value v_keymap, value v_name) {
 CAMLprim value caml_xkb_state_mod_index_is_active(value v_state, value v_idx) {
   return Val_bool(xkb_state_mod_index_is_active(State_val(v_state), Int_val(v_idx), XKB_STATE_MODS_EFFECTIVE));
 }
+
+CAMLprim value caml_xkb_keysym_to_upper(value v_keysym) {
+  return Val_int(xkb_keysym_to_upper(Int_val(v_keysym)));
+}
+
+CAMLprim value caml_xkb_keysym_to_lower(value v_keysym) {
+  return Val_int(xkb_keysym_to_lower(Int_val(v_keysym)));
+}
+
+CAMLprim value caml_xkb_keymap_min_keycode(value v_keymap) {
+  return caml_copy_int32(xkb_keymap_min_keycode(Keymap_val(v_keymap)));
+}
+
+CAMLprim value caml_xkb_keymap_max_keycode(value v_keymap) {
+  return caml_copy_int32(xkb_keymap_max_keycode(Keymap_val(v_keymap)));
+}
+
+CAMLprim value caml_xkb_keymap_num_mods(value v_keymap) {
+  return Val_int(xkb_keymap_num_mods(Keymap_val(v_keymap)));
+}
+
+CAMLprim value caml_xkb_keymap_mod_get_name(value v_keymap, value v_idx) {
+  CAMLparam2(v_keymap, v_idx);
+  CAMLlocal1(v);
+  const char *name = xkb_keymap_mod_get_name(Keymap_val(v_keymap), Int_val(v_idx));
+  if (name) {
+    v = caml_copy_string(name);
+    CAMLreturn(caml_alloc_some(v));
+  } else {
+    CAMLreturn(Val_none);
+  }
+}
+
+CAMLprim value caml_xkb_keymap_num_layouts(value v_keymap) {
+  return Val_int(xkb_keymap_num_layouts(Keymap_val(v_keymap)));
+}
+
+CAMLprim value caml_xkb_keymap_layout_get_name(value v_keymap, value v_idx) {
+  CAMLparam2(v_keymap, v_idx);
+  CAMLlocal1(v);
+  const char *name = xkb_keymap_layout_get_name(Keymap_val(v_keymap), Int_val(v_idx));
+  if (name) {
+    v = caml_copy_string(name);
+    CAMLreturn(caml_alloc_some(v));
+  } else {
+    CAMLreturn(Val_none);
+  }
+}
+
+CAMLprim value caml_xkb_keymap_layout_get_index(value v_keymap, value v_name) {
+  xkb_layout_index_t idx = xkb_keymap_layout_get_index(Keymap_val(v_keymap), String_val(v_name));
+  if (idx == XKB_LAYOUT_INVALID)
+    return Val_none;
+  else
+    return caml_alloc_some(Val_int(idx));
+}
+
+CAMLprim value caml_xkb_keymap_num_leds(value v_keymap) {
+  return Val_int(xkb_keymap_num_leds(Keymap_val(v_keymap)));
+}
+
+CAMLprim value caml_xkb_keymap_led_get_name(value v_keymap, value v_idx) {
+  CAMLparam2(v_keymap, v_idx);
+  CAMLlocal1(v);
+  const char *name = xkb_keymap_led_get_name(Keymap_val(v_keymap), Int_val(v_idx));
+  if (name) {
+    v = caml_copy_string(name);
+    CAMLreturn(caml_alloc_some(v));
+  } else {
+    CAMLreturn(Val_none);
+  }
+}
+
+CAMLprim value caml_xkb_keymap_led_get_index(value v_keymap, value v_name) {
+  xkb_led_index_t idx = xkb_keymap_led_get_index(Keymap_val(v_keymap), String_val(v_name));
+  if (idx == XKB_LED_INVALID)
+    return Val_none;
+  else
+    return caml_alloc_some(Val_int(idx));
+}
+
+CAMLprim value caml_xkb_keymap_num_layouts_for_key(value v_keymap, value v_key) {
+  return Val_int(xkb_keymap_num_layouts_for_key(Keymap_val(v_keymap), Int32_val(v_key)));
+}
+
+CAMLprim value caml_xkb_keymap_num_levels_for_key(value v_keymap, value v_key, value v_layout) {
+  return Val_int(xkb_keymap_num_levels_for_key(Keymap_val(v_keymap), Int32_val(v_key), Int_val(v_layout)));
+}
+
+CAMLprim value caml_xkb_keymap_get_as_string(value v_keymap) {
+  CAMLparam1(v_keymap);
+  CAMLlocal1(v);
+  char *str = xkb_keymap_get_as_string(Keymap_val(v_keymap), XKB_KEYMAP_FORMAT_TEXT_V1);
+  if (!str)
+    caml_failwith("xkb_keymap_get_as_string returned NULL");
+  v = caml_copy_string(str);
+  free(str);
+  CAMLreturn(v);
+}
+
+CAMLprim value caml_xkb_keymap_new_from_string(value v_ctx, value v_str) {
+  CAMLparam2(v_ctx, v_str);
+  CAMLlocal1(v);
+
+  v = caml_alloc_custom_mem(&keymap_ops, sizeof(struct xkb_keymap *), caml_string_length(v_str));
+  Keymap_val(v) = NULL;
+
+  struct xkb_keymap *keymap = xkb_keymap_new_from_string(
+      Context_val(v_ctx), String_val(v_str), XKB_KEYMAP_FORMAT_TEXT_V1,
+      XKB_KEYMAP_COMPILE_NO_FLAGS);
+  if (!keymap)
+    caml_failwith("xkb_keymap_new_from_string returned NULL");
+  Keymap_val(v) = keymap;
+
+  CAMLreturn(v);
+}
+
+CAMLprim value caml_xkb_state_key_get_layout(value v_state, value v_key) {
+  return Val_int(xkb_state_key_get_layout(State_val(v_state), Int32_val(v_key)));
+}
+
+CAMLprim value caml_xkb_state_key_get_level(value v_state, value v_key, value v_layout) {
+  return Val_int(xkb_state_key_get_level(State_val(v_state), Int32_val(v_key), Int_val(v_layout)));
+}
+
+CAMLprim value caml_xkb_state_serialize_mods(value v_state, value v_components) {
+  return caml_copy_int32(xkb_state_serialize_mods(State_val(v_state), Int_val(v_components)));
+}
+
+CAMLprim value caml_xkb_state_serialize_layout(value v_state, value v_components) {
+  return Val_int(xkb_state_serialize_layout(State_val(v_state), Int_val(v_components)));
+}
+
+CAMLprim value caml_xkb_state_mod_name_is_active(value v_state, value v_name) {
+  return Val_bool(xkb_state_mod_name_is_active(State_val(v_state), String_val(v_name), XKB_STATE_MODS_EFFECTIVE));
+}
+
+CAMLprim value caml_xkb_state_key_get_consumed_mods(value v_state, value v_key) {
+  return caml_copy_int32(xkb_state_key_get_consumed_mods(State_val(v_state), Int32_val(v_key)));
+}
+
+CAMLprim value caml_xkb_state_led_name_is_active(value v_state, value v_name) {
+  return Val_bool(xkb_state_led_name_is_active(State_val(v_state), String_val(v_name)));
+}
+
+CAMLprim value caml_xkb_state_led_index_is_active(value v_state, value v_idx) {
+  return Val_bool(xkb_state_led_index_is_active(State_val(v_state), Int_val(v_idx)));
+}
+
+CAMLprim value caml_xkb_state_update_latched_locked(
+    value v_state,
+    value v_affect_latched_mods,
+    value v_latched_mods,
+    value v_affect_latched_layout,
+    value v_latched_layout,
+    value v_affect_locked_mods,
+    value v_locked_mods,
+    value v_affect_locked_layout,
+    value v_locked_layout) {
+  xkb_state_update_latched_locked(State_val(v_state),
+               Int32_val(v_affect_latched_mods),
+               Int32_val(v_latched_mods),
+               Bool_val(v_affect_latched_layout),
+               Int32_val(v_latched_layout),
+               Int32_val(v_affect_locked_mods),
+               Int32_val(v_locked_mods),
+               Bool_val(v_affect_locked_layout),
+               Int32_val(v_locked_layout));
+  return Val_unit;
+}
+
+CAMLprim value caml_xkb_state_update_latched_locked_bytecode(value *argv, int argn) {
+  (void)argn;
+  return caml_xkb_state_update_latched_locked(
+      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7], argv[8]);
+}

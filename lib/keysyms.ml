@@ -1092,6 +1092,7 @@ type t =
   | K_dead_small_schwa
   | K_dead_capital_schwa
   | K_dead_greek
+  | K_dead_hamza
   | K_dead_lowline
   | K_dead_aboveverticalline
   | K_dead_belowverticalline
@@ -1391,15 +1392,41 @@ type t =
   | K_SunVideoLowerBrightness
   | K_SunVideoRaiseBrightness
   | K_SunPowerSwitchShift
+  | K_XF86MediaPlayPause
+  | K_XF86Exit
+  | K_XF86AudioBassBoost
+  | K_XF86Sport
   | K_XF86BrightnessAuto
   | K_XF86DisplayOff
+  | K_XF86OK
+  | K_XF86GoTo
   | K_XF86Info
+  | K_XF86VendorLogo
+  | K_XF86MediaSelectProgramGuide
+  | K_XF86MediaSelectHome
+  | K_XF86MediaLanguageMenu
+  | K_XF86MediaTitleMenu
+  | K_XF86AudioChannelMode
   | K_XF86AspectRatio
+  | K_XF86MediaSelectPC
+  | K_XF86MediaSelectTV
+  | K_XF86MediaSelectCable
+  | K_XF86MediaSelectVCR
+  | K_XF86MediaSelectVCRPlus
+  | K_XF86MediaSelectSatellite
+  | K_XF86MediaSelectTape
+  | K_XF86MediaSelectRadio
+  | K_XF86MediaSelectTuner
+  | K_XF86MediaPlayer
+  | K_XF86MediaSelectTeletext
   | K_XF86DVD
+  | K_XF86MediaSelectAuxiliary
   | K_XF86Audio
   | K_XF86ChannelUp
   | K_XF86ChannelDown
+  | K_XF86MediaPlaySlow
   | K_XF86Break
+  | K_XF86NumberEntryMode
   | K_XF86VideoPhone
   | K_XF86ZoomReset
   | K_XF86Editor
@@ -1418,8 +1445,28 @@ type t =
   | K_XF86NotificationCenter
   | K_XF86PickupPhone
   | K_XF86HangupPhone
+  | K_XF86LinkPhone
   | K_XF86Fn
   | K_XF86Fn_Esc
+  | K_XF86Fn_F1
+  | K_XF86Fn_F2
+  | K_XF86Fn_F3
+  | K_XF86Fn_F4
+  | K_XF86Fn_F5
+  | K_XF86Fn_F6
+  | K_XF86Fn_F7
+  | K_XF86Fn_F8
+  | K_XF86Fn_F9
+  | K_XF86Fn_F10
+  | K_XF86Fn_F11
+  | K_XF86Fn_F12
+  | K_XF86Fn_1
+  | K_XF86Fn_2
+  | K_XF86Fn_D
+  | K_XF86Fn_E
+  | K_XF86Fn_F
+  | K_XF86Fn_S
+  | K_XF86Fn_B
   | K_XF86FnRightShift
   | K_XF86Numeric0
   | K_XF86Numeric1
@@ -1450,6 +1497,7 @@ type t =
   | K_XF86AttendantToggle
   | K_XF86LightsToggle
   | K_XF86ALSToggle
+  | K_XF86RefreshRateToggle
   | K_XF86Buttonconfig
   | K_XF86Taskmanager
   | K_XF86Journal
@@ -1458,6 +1506,13 @@ type t =
   | K_XF86Screensaver
   | K_XF86VoiceCommand
   | K_XF86Assistant
+  | K_XF86EmojiPicker
+  | K_XF86Dictate
+  | K_XF86CameraAccessEnable
+  | K_XF86CameraAccessDisable
+  | K_XF86CameraAccessToggle
+  | K_XF86Accessibility
+  | K_XF86DoNotDisturb
   | K_XF86BrightnessMin
   | K_XF86BrightnessMax
   | K_XF86KbdInputAssistPrev
@@ -1487,6 +1542,20 @@ type t =
   | K_XF86OnScreenKeyboard
   | K_XF86PrivacyScreenToggle
   | K_XF86SelectiveScreenshot
+  | K_XF86NextElement
+  | K_XF86PreviousElement
+  | K_XF86AutopilotEngageToggle
+  | K_XF86MarkWaypoint
+  | K_XF86Sos
+  | K_XF86NavChart
+  | K_XF86FishingChart
+  | K_XF86SingleRangeRadar
+  | K_XF86DualRangeRadar
+  | K_XF86RadarOverlay
+  | K_XF86TraditionalSonar
+  | K_XF86ClearvuSonar
+  | K_XF86SidevuSonar
+  | K_XF86NavInfo
   | K_XF86Macro1
   | K_XF86Macro2
   | K_XF86Macro3
@@ -1528,6 +1597,7 @@ type t =
   | K_XF86KbdLcdMenu3
   | K_XF86KbdLcdMenu4
   | K_XF86KbdLcdMenu5
+  | K_XF86PerformanceMode
   | K_XF86Switch_VT_1
   | K_XF86Switch_VT_2
   | K_XF86Switch_VT_3
@@ -2807,6 +2877,7 @@ let of_int = function
   | 65162 -> K_dead_small_schwa
   | 65163 -> K_dead_capital_schwa
   | 65164 -> K_dead_greek
+  | 65165 -> K_dead_hamza
   | 65168 -> K_dead_lowline
   | 65169 -> K_dead_aboveverticalline
   | 65170 -> K_dead_belowverticalline
@@ -3106,15 +3177,41 @@ let of_int = function
   | 268828539 -> K_SunVideoLowerBrightness
   | 268828540 -> K_SunVideoRaiseBrightness
   | 268828541 -> K_SunPowerSwitchShift
+  | 268964004 -> K_XF86MediaPlayPause
+  | 268964014 -> K_XF86Exit
+  | 268964049 -> K_XF86AudioBassBoost
+  | 268964060 -> K_XF86Sport
   | 268964084 -> K_XF86BrightnessAuto
   | 268964085 -> K_XF86DisplayOff
+  | 268964192 -> K_XF86OK
+  | 268964194 -> K_XF86GoTo
   | 268964198 -> K_XF86Info
+  | 268964200 -> K_XF86VendorLogo
+  | 268964202 -> K_XF86MediaSelectProgramGuide
+  | 268964206 -> K_XF86MediaSelectHome
+  | 268964208 -> K_XF86MediaLanguageMenu
+  | 268964209 -> K_XF86MediaTitleMenu
+  | 268964213 -> K_XF86AudioChannelMode
   | 268964215 -> K_XF86AspectRatio
+  | 268964216 -> K_XF86MediaSelectPC
+  | 268964217 -> K_XF86MediaSelectTV
+  | 268964218 -> K_XF86MediaSelectCable
+  | 268964219 -> K_XF86MediaSelectVCR
+  | 268964220 -> K_XF86MediaSelectVCRPlus
+  | 268964221 -> K_XF86MediaSelectSatellite
+  | 268964224 -> K_XF86MediaSelectTape
+  | 268964225 -> K_XF86MediaSelectRadio
+  | 268964226 -> K_XF86MediaSelectTuner
+  | 268964227 -> K_XF86MediaPlayer
+  | 268964228 -> K_XF86MediaSelectTeletext
   | 268964229 -> K_XF86DVD
+  | 268964230 -> K_XF86MediaSelectAuxiliary
   | 268964232 -> K_XF86Audio
   | 268964242 -> K_XF86ChannelUp
   | 268964243 -> K_XF86ChannelDown
+  | 268964249 -> K_XF86MediaPlaySlow
   | 268964251 -> K_XF86Break
+  | 268964253 -> K_XF86NumberEntryMode
   | 268964256 -> K_XF86VideoPhone
   | 268964260 -> K_XF86ZoomReset
   | 268964262 -> K_XF86Editor
@@ -3133,8 +3230,28 @@ let of_int = function
   | 268964284 -> K_XF86NotificationCenter
   | 268964285 -> K_XF86PickupPhone
   | 268964286 -> K_XF86HangupPhone
+  | 268964287 -> K_XF86LinkPhone
   | 268964304 -> K_XF86Fn
   | 268964305 -> K_XF86Fn_Esc
+  | 268964306 -> K_XF86Fn_F1
+  | 268964307 -> K_XF86Fn_F2
+  | 268964308 -> K_XF86Fn_F3
+  | 268964309 -> K_XF86Fn_F4
+  | 268964310 -> K_XF86Fn_F5
+  | 268964311 -> K_XF86Fn_F6
+  | 268964312 -> K_XF86Fn_F7
+  | 268964313 -> K_XF86Fn_F8
+  | 268964314 -> K_XF86Fn_F9
+  | 268964315 -> K_XF86Fn_F10
+  | 268964316 -> K_XF86Fn_F11
+  | 268964317 -> K_XF86Fn_F12
+  | 268964318 -> K_XF86Fn_1
+  | 268964319 -> K_XF86Fn_2
+  | 268964320 -> K_XF86Fn_D
+  | 268964321 -> K_XF86Fn_E
+  | 268964322 -> K_XF86Fn_F
+  | 268964323 -> K_XF86Fn_S
+  | 268964324 -> K_XF86Fn_B
   | 268964325 -> K_XF86FnRightShift
   | 268964352 -> K_XF86Numeric0
   | 268964353 -> K_XF86Numeric1
@@ -3165,6 +3282,7 @@ let of_int = function
   | 268964381 -> K_XF86AttendantToggle
   | 268964382 -> K_XF86LightsToggle
   | 268964400 -> K_XF86ALSToggle
+  | 268964402 -> K_XF86RefreshRateToggle
   | 268964416 -> K_XF86Buttonconfig
   | 268964417 -> K_XF86Taskmanager
   | 268964418 -> K_XF86Journal
@@ -3173,6 +3291,13 @@ let of_int = function
   | 268964421 -> K_XF86Screensaver
   | 268964422 -> K_XF86VoiceCommand
   | 268964423 -> K_XF86Assistant
+  | 268964425 -> K_XF86EmojiPicker
+  | 268964426 -> K_XF86Dictate
+  | 268964427 -> K_XF86CameraAccessEnable
+  | 268964428 -> K_XF86CameraAccessDisable
+  | 268964429 -> K_XF86CameraAccessToggle
+  | 268964430 -> K_XF86Accessibility
+  | 268964431 -> K_XF86DoNotDisturb
   | 268964432 -> K_XF86BrightnessMin
   | 268964433 -> K_XF86BrightnessMax
   | 268964448 -> K_XF86KbdInputAssistPrev
@@ -3202,6 +3327,20 @@ let of_int = function
   | 268964472 -> K_XF86OnScreenKeyboard
   | 268964473 -> K_XF86PrivacyScreenToggle
   | 268964474 -> K_XF86SelectiveScreenshot
+  | 268964475 -> K_XF86NextElement
+  | 268964476 -> K_XF86PreviousElement
+  | 268964477 -> K_XF86AutopilotEngageToggle
+  | 268964478 -> K_XF86MarkWaypoint
+  | 268964479 -> K_XF86Sos
+  | 268964480 -> K_XF86NavChart
+  | 268964481 -> K_XF86FishingChart
+  | 268964482 -> K_XF86SingleRangeRadar
+  | 268964483 -> K_XF86DualRangeRadar
+  | 268964484 -> K_XF86RadarOverlay
+  | 268964485 -> K_XF86TraditionalSonar
+  | 268964486 -> K_XF86ClearvuSonar
+  | 268964487 -> K_XF86SidevuSonar
+  | 268964488 -> K_XF86NavInfo
   | 268964496 -> K_XF86Macro1
   | 268964497 -> K_XF86Macro2
   | 268964498 -> K_XF86Macro3
@@ -3243,6 +3382,7 @@ let of_int = function
   | 268964538 -> K_XF86KbdLcdMenu3
   | 268964539 -> K_XF86KbdLcdMenu4
   | 268964540 -> K_XF86KbdLcdMenu5
+  | 268964541 -> K_XF86PerformanceMode
   | 269024769 -> K_XF86Switch_VT_1
   | 269024770 -> K_XF86Switch_VT_2
   | 269024771 -> K_XF86Switch_VT_3
@@ -4522,6 +4662,7 @@ let to_int = function
   | K_dead_small_schwa -> 65162
   | K_dead_capital_schwa -> 65163
   | K_dead_greek -> 65164
+  | K_dead_hamza -> 65165
   | K_dead_lowline -> 65168
   | K_dead_aboveverticalline -> 65169
   | K_dead_belowverticalline -> 65170
@@ -4821,15 +4962,41 @@ let to_int = function
   | K_SunVideoLowerBrightness -> 268828539
   | K_SunVideoRaiseBrightness -> 268828540
   | K_SunPowerSwitchShift -> 268828541
+  | K_XF86MediaPlayPause -> 268964004
+  | K_XF86Exit -> 268964014
+  | K_XF86AudioBassBoost -> 268964049
+  | K_XF86Sport -> 268964060
   | K_XF86BrightnessAuto -> 268964084
   | K_XF86DisplayOff -> 268964085
+  | K_XF86OK -> 268964192
+  | K_XF86GoTo -> 268964194
   | K_XF86Info -> 268964198
+  | K_XF86VendorLogo -> 268964200
+  | K_XF86MediaSelectProgramGuide -> 268964202
+  | K_XF86MediaSelectHome -> 268964206
+  | K_XF86MediaLanguageMenu -> 268964208
+  | K_XF86MediaTitleMenu -> 268964209
+  | K_XF86AudioChannelMode -> 268964213
   | K_XF86AspectRatio -> 268964215
+  | K_XF86MediaSelectPC -> 268964216
+  | K_XF86MediaSelectTV -> 268964217
+  | K_XF86MediaSelectCable -> 268964218
+  | K_XF86MediaSelectVCR -> 268964219
+  | K_XF86MediaSelectVCRPlus -> 268964220
+  | K_XF86MediaSelectSatellite -> 268964221
+  | K_XF86MediaSelectTape -> 268964224
+  | K_XF86MediaSelectRadio -> 268964225
+  | K_XF86MediaSelectTuner -> 268964226
+  | K_XF86MediaPlayer -> 268964227
+  | K_XF86MediaSelectTeletext -> 268964228
   | K_XF86DVD -> 268964229
+  | K_XF86MediaSelectAuxiliary -> 268964230
   | K_XF86Audio -> 268964232
   | K_XF86ChannelUp -> 268964242
   | K_XF86ChannelDown -> 268964243
+  | K_XF86MediaPlaySlow -> 268964249
   | K_XF86Break -> 268964251
+  | K_XF86NumberEntryMode -> 268964253
   | K_XF86VideoPhone -> 268964256
   | K_XF86ZoomReset -> 268964260
   | K_XF86Editor -> 268964262
@@ -4848,8 +5015,28 @@ let to_int = function
   | K_XF86NotificationCenter -> 268964284
   | K_XF86PickupPhone -> 268964285
   | K_XF86HangupPhone -> 268964286
+  | K_XF86LinkPhone -> 268964287
   | K_XF86Fn -> 268964304
   | K_XF86Fn_Esc -> 268964305
+  | K_XF86Fn_F1 -> 268964306
+  | K_XF86Fn_F2 -> 268964307
+  | K_XF86Fn_F3 -> 268964308
+  | K_XF86Fn_F4 -> 268964309
+  | K_XF86Fn_F5 -> 268964310
+  | K_XF86Fn_F6 -> 268964311
+  | K_XF86Fn_F7 -> 268964312
+  | K_XF86Fn_F8 -> 268964313
+  | K_XF86Fn_F9 -> 268964314
+  | K_XF86Fn_F10 -> 268964315
+  | K_XF86Fn_F11 -> 268964316
+  | K_XF86Fn_F12 -> 268964317
+  | K_XF86Fn_1 -> 268964318
+  | K_XF86Fn_2 -> 268964319
+  | K_XF86Fn_D -> 268964320
+  | K_XF86Fn_E -> 268964321
+  | K_XF86Fn_F -> 268964322
+  | K_XF86Fn_S -> 268964323
+  | K_XF86Fn_B -> 268964324
   | K_XF86FnRightShift -> 268964325
   | K_XF86Numeric0 -> 268964352
   | K_XF86Numeric1 -> 268964353
@@ -4880,6 +5067,7 @@ let to_int = function
   | K_XF86AttendantToggle -> 268964381
   | K_XF86LightsToggle -> 268964382
   | K_XF86ALSToggle -> 268964400
+  | K_XF86RefreshRateToggle -> 268964402
   | K_XF86Buttonconfig -> 268964416
   | K_XF86Taskmanager -> 268964417
   | K_XF86Journal -> 268964418
@@ -4888,6 +5076,13 @@ let to_int = function
   | K_XF86Screensaver -> 268964421
   | K_XF86VoiceCommand -> 268964422
   | K_XF86Assistant -> 268964423
+  | K_XF86EmojiPicker -> 268964425
+  | K_XF86Dictate -> 268964426
+  | K_XF86CameraAccessEnable -> 268964427
+  | K_XF86CameraAccessDisable -> 268964428
+  | K_XF86CameraAccessToggle -> 268964429
+  | K_XF86Accessibility -> 268964430
+  | K_XF86DoNotDisturb -> 268964431
   | K_XF86BrightnessMin -> 268964432
   | K_XF86BrightnessMax -> 268964433
   | K_XF86KbdInputAssistPrev -> 268964448
@@ -4917,6 +5112,20 @@ let to_int = function
   | K_XF86OnScreenKeyboard -> 268964472
   | K_XF86PrivacyScreenToggle -> 268964473
   | K_XF86SelectiveScreenshot -> 268964474
+  | K_XF86NextElement -> 268964475
+  | K_XF86PreviousElement -> 268964476
+  | K_XF86AutopilotEngageToggle -> 268964477
+  | K_XF86MarkWaypoint -> 268964478
+  | K_XF86Sos -> 268964479
+  | K_XF86NavChart -> 268964480
+  | K_XF86FishingChart -> 268964481
+  | K_XF86SingleRangeRadar -> 268964482
+  | K_XF86DualRangeRadar -> 268964483
+  | K_XF86RadarOverlay -> 268964484
+  | K_XF86TraditionalSonar -> 268964485
+  | K_XF86ClearvuSonar -> 268964486
+  | K_XF86SidevuSonar -> 268964487
+  | K_XF86NavInfo -> 268964488
   | K_XF86Macro1 -> 268964496
   | K_XF86Macro2 -> 268964497
   | K_XF86Macro3 -> 268964498
@@ -4958,6 +5167,7 @@ let to_int = function
   | K_XF86KbdLcdMenu3 -> 268964538
   | K_XF86KbdLcdMenu4 -> 268964539
   | K_XF86KbdLcdMenu5 -> 268964540
+  | K_XF86PerformanceMode -> 268964541
   | K_XF86Switch_VT_1 -> 269024769
   | K_XF86Switch_VT_2 -> 269024770
   | K_XF86Switch_VT_3 -> 269024771
